@@ -1,8 +1,13 @@
 import boto
 from boto.ec2 import *
+from boto.iam.connection import IAMConnection
 import argparse
 import sys, os
 from ConfigParser import SafeConfigParser
+from fabric.api import *
+from fabric.operations import local
+from fabric.colors import *
+from pprint import pprint
 
 def get_config():
     parser = SafeConfigParser()
@@ -19,15 +24,15 @@ def get_region():
     args = cmd_parser.parse_args()
     return {'region':args.region,'access_key':config['access_key'],'secret_key':config['secret_key']}
 
-def ec2_connect():
-    config = get_region()
-    conn = connect_to_region(config['region'],aws_access_key_id=config['access_key'],aws_secret_access_key=config['secret_key'])
+def ec2_connect(region):
+    config = get_config()
+    conn = connect_to_region(region,aws_access_key_id=config['access_key'],aws_secret_access_key=config['secret_key'])
     return conn
 
-def get_instance_list():
-    conn = ec2_connect()
-    instances = conn.get_all_instances(max_results='1000')
-    print len(instances)
+@task
+def get_instance_list(region):
+    conn = ec2_connect(region)
+    instances = conn.get_all_instances()
     for instance in instances:
         if 'Name' in instance.instances[0].__dict__['tags']:
             name = instance.instances[0].__dict__['tags']['Name']
@@ -39,5 +44,11 @@ def get_instance_list():
             environment = "None"
         print name+","+environment
 
-if __name__ == "__main__":
-    get_instance_list()
+
+@task
+def get_iam_users():
+    config = get_config()
+    conn = IAMConnection(config['access_key'],config['secret_key'])
+    users = conn.get_all_users()
+    for user in users['list_users_response']['list_users_result']['users']:
+        print user['user_name']+","+user['create_date']
