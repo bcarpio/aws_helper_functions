@@ -1,17 +1,12 @@
-import boto
-from boto.ec2 import *
 from boto.iam.connection import IAMConnection
-import argparse
-import sys, os
-from ConfigParser import SafeConfigParser
 from fabric.api import *
 from fabric.operations import local
 from fabric.colors import *
-from pprint import pprint
+from config import *
 
 def get_config():
     parser = SafeConfigParser()
-    config = os.path.join(os.path.dirname(__file__),"./config.ini")
+    config = os.path.join(os.path.dirname(__file__),"../conf/config.ini")
     parser.read(config)
     access_key = parser.get('aws', 'access_key')
     secret_key = parser.get('aws', 'secret_key')
