@@ -10,14 +10,7 @@ def get_instance_list(region):
     instances = conn.get_all_instances()
     for instance in instances:
         if 'Name' in instance.instances[0].__dict__['tags']:
-            name = instance.instances[0].__dict__['tags']['Name']
-        if 'Environment' in instance.instances[0].__dict__['tags']:
-            environment = instance.instances[0].__dict__['tags']['Environment']
-        elif 'environment' in instance.instances[0].__dict__['tags']:
-            environment = instance.instances[0].__dict__['tags']['environment']
-        else:
-            environment = "None"
-        print name+","+environment
+            print instance.instances[0].__dict__['tags']['Name']
 
 @task
 def get_iam_users():
