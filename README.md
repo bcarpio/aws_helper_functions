@@ -4,10 +4,9 @@ This is a basic set of helper functions which you can use to get info from your 
 
 ## Installation
 
-`sudo apt-get install python-pip
-sudo pip install fabric
-sudo pip install boto
-`
+`sudo apt-get install python-pip`
+`sudo pip install fabric`
+`sudo pip install boto`
 
 ## Configuration
 
