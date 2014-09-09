@@ -10,12 +10,12 @@ def get_config():
     secret_key = parser.get('aws', 'secret_key')
     return {'access_key':access_key,'secret_key':secret_key}
 
-def get_region():
-    config = get_config()
-    cmd_parser = argparse.ArgumentParser(description='Get Instance List')
-    cmd_parser.add_argument('-r', '--region', dest='region', help='AWS Region', required=True)
-    args = cmd_parser.parse_args()
-    return {'region':args.region,'access_key':config['access_key'],'secret_key':config['secret_key']}
+#def get_region():
+#   config = get_config()
+#    cmd_parser = argparse.ArgumentParser(description='Get Instance List')
+#    cmd_parser.add_argument('-r', '--region', dest='region', help='AWS Region', required=True)
+#    args = cmd_parser.parse_args()
+#    return {'region':args.region,'access_key':config['access_key'],'secret_key':config['secret_key']}
 
 def ec2_connect(region):
     config = get_config()
