@@ -6,6 +6,7 @@ from config import *
 
 @task
 def get_instance_list(region):
+    """ Requires: Region"""
     conn = ec2_connect(region)
     instances = conn.get_all_instances()
     for instance in instances:
@@ -14,6 +15,7 @@ def get_instance_list(region):
 
 @task
 def get_iam_users():
+    """Requires: none """
     config = get_config()
     conn = IAMConnection(config['access_key'],config['secret_key'])
     users = conn.get_all_users()
@@ -22,6 +24,7 @@ def get_iam_users():
 
 @task
 def get_host_name(region,id):
+    """ Requires: region and instance_id """
     conn = ec2_connect(region)
     instances = conn.get_all_instances()
     for instance in instances:
